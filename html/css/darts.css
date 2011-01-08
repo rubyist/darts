@@ -1,0 +1,67 @@
+.score div {
+    float: left;
+    background-color: black;
+    height: 48px;
+    background-image: url(../img/numbers.png);
+    background-repeat: no-repeat;
+}
+
+.blank {
+    width: 33px;
+    background-image: none !important;
+}
+
+.win {
+    width: 112px;
+    background-position: 0px -45px;
+}
+
+.n1 {
+    width: 28px;
+    background-position: 0px 0px;
+}
+
+.n2 {
+    width: 28px;
+    background-position: -28px 0px;
+}
+
+.n3 {
+    width: 33px;
+    background-position: -56px 0px;
+}
+
+.n4 {
+    width: 44px;
+    background-position: -89px 0px;
+}
+
+.n5 {
+    width: 30px;
+    background-position: -133px 0px;
+}
+
+.n6 {
+    width: 31px;
+    background-position: -163px 0px;
+}
+
+.n7 {
+    width: 30px;
+    background-position: -194px 0px;
+}
+
+.n8 {
+    width: 38px;
+    background-position: -224px 0px;
+}
+
+.n9 {
+    width: 29px;
+    background-position: -262px 0px;
+}
+
+.n0 {
+    width: 34px;
+    background-position: -291px 0px;
+}
