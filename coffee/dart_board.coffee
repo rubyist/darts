@@ -1,13 +1,12 @@
 class DartBoard
   ScoreOrder: [20, 1, 18, 4, 13, 6, 10, 15, 2, 17, 3, 19, 7, 16, 8, 11, 14, 9, 12, 5]
 
-  constructor: (@element) ->
-    @canvas_width = document.getElementById(@element).scrollWidth
-    @canvas_height = document.getElementById(@element).scrollHeight
-    @originX = @canvas_width / 2
-    @originY = @canvas_height / 2
-    @paper = Raphael(@element, @canvas_width, @canvas_height)
-    @radius = @canvas_width / 2
+  constructor: (@game) ->
+    @paper = @game.paper
+    # These are all the same because we're drawing in a square portion
+    @originX = Math.min(@paper.width, @paper.height) / 2
+    @originY = Math.min(@paper.width, @paper.height) / 2
+    @radius  = Math.min(@paper.width, @paper.height) / 2
 
     this.draw()
 
@@ -21,7 +20,7 @@ class DartBoard
     new BullsEye(this)
 
   emitScore: (score) ->
-    $('#score').text(score)
+    @game.hit(score)
 
 
 

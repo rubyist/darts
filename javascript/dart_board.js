@@ -2,14 +2,12 @@ var BoardSlice, BullsEye, DartBoard;
 var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
 DartBoard = (function() {
   DartBoard.prototype.ScoreOrder = [20, 1, 18, 4, 13, 6, 10, 15, 2, 17, 3, 19, 7, 16, 8, 11, 14, 9, 12, 5];
-  function DartBoard(element) {
-    this.element = element;
-    this.canvas_width = document.getElementById(this.element).scrollWidth;
-    this.canvas_height = document.getElementById(this.element).scrollHeight;
-    this.originX = this.canvas_width / 2;
-    this.originY = this.canvas_height / 2;
-    this.paper = Raphael(this.element, this.canvas_width, this.canvas_height);
-    this.radius = this.canvas_width / 2;
+  function DartBoard(game) {
+    this.game = game;
+    this.paper = this.game.paper;
+    this.originX = Math.min(this.paper.width, this.paper.height) / 2;
+    this.originY = Math.min(this.paper.width, this.paper.height) / 2;
+    this.radius = Math.min(this.paper.width, this.paper.height) / 2;
     this.draw();
   }
   DartBoard.prototype.draw = function() {
@@ -26,7 +24,7 @@ DartBoard = (function() {
     return new BullsEye(this);
   };
   DartBoard.prototype.emitScore = function(score) {
-    return $('#score').text(score);
+    return this.game.hit(score);
   };
   return DartBoard;
 })();
