@@ -11,9 +11,10 @@
 <script type="text/javascript">
 function doit() {
   var game = new x01(301);
-  game.start(4);
+  game.start(2);
 
   $('#restart').click(function () {game.restart();});
+  $('#miss').click(function () {game.miss();})
 }
 </script>
 <style type="text/css">
@@ -25,7 +26,7 @@ function doit() {
 <body onload="doit();">
 <div id="board" style="width:500px; height:500px;"></div>
 <div id="game">
- <div style="width:500px;text-align:center;"><button id="restart">Restart</button></div>
+ <div style="width:500px;text-align:center;"><button id="miss">Miss</button> <button id="restart">Restart</button></div>
  <div id="score0" class="score"></div>
  <div id="score1" class="score"></div>
  <div id="score2" class="score"></div>
