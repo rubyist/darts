@@ -9,12 +9,26 @@ x01Player = (function() {
     this.reset();
   }
   x01Player.prototype.drawScore = function() {
-    var text;
+    var circle, text;
     this.r.clear();
     text = this.r.print(4, 24, this.score, this.r.getFont("Chalkduster"), 48);
-    return text.attr({
+    text.attr({
       fill: "white"
     });
+    if (this.active) {
+      circle = this.r.circle(8, 24, 4);
+      return circle.attr({
+        fill: "red"
+      });
+    }
+  };
+  x01Player.prototype.setInactive = function() {
+    this.active = false;
+    return this.drawScore();
+  };
+  x01Player.prototype.setActive = function() {
+    this.active = true;
+    return this.drawScore();
   };
   x01Player.prototype.startTurn = function() {
     return this.round_score = 0;
@@ -30,6 +44,7 @@ x01Player = (function() {
   x01Player.prototype.bust = function() {
     this.score += this.round_score;
     this.round_score = 0;
+    this.active = false;
     return this.drawScore();
   };
   x01Player.prototype.hit = function(score) {
@@ -64,7 +79,8 @@ x01 = (function() {
       this.players[i] = new x01Player('bill', this.starting_points, i);
       this.players[i].drawScore();
     }
-    return this.players[0].startTurn();
+    this.players[0].startTurn();
+    return this.players[0].setActive();
   };
   x01.prototype.restart = function() {
     var player, _i, _len, _ref, _results;
@@ -85,6 +101,7 @@ x01 = (function() {
     return this.player = this.turns % this.players.length;
   };
   x01.prototype.hit = function(score) {
+    var current_player;
     if (this.game_over) {
       return;
     }
@@ -92,21 +109,24 @@ x01 = (function() {
     if (this.hits % 3 === 0) {
       this.turns += 1;
     }
+    current_player = this.players[this.player];
     switch (this.validateScore(score)) {
       case "good":
-        this.players[this.player].hit(score);
+        current_player.hit(score);
         break;
       case "win":
-        this.players[this.player].win();
+        current_player.win();
         this.game_over = true;
-        break;
+        return;
       case "bust":
-        this.players[this.player].bust();
+        current_player.bust();
     }
     if (this.hits % 3 === 0) {
       this.players[this.player].startTurn();
     }
-    return this.player = this.turns % this.players.length;
+    current_player.setInactive();
+    this.player = this.turns % this.players.length;
+    return this.players[this.player].setActive();
   };
   x01.prototype.validateScore = function(score) {
     if (score < this.players[this.player].score) {
