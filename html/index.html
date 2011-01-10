@@ -10,10 +10,10 @@
 
 <script type="text/javascript">
 function doit() {
-  var game = new x01();
-  game.start(301);
+  var game = new x01(301);
+  game.start(4);
 
-  $('#restart').click(function () {game.start(301);});
+  $('#restart').click(function () {game.restart();});
 }
 </script>
 <style type="text/css">
@@ -26,6 +26,9 @@ function doit() {
 <div id="board" style="width:500px; height:500px;"></div>
 <div id="game">
  <div style="width:500px;text-align:center;"><button id="restart">Restart</button></div>
- <div id="score"></div>
+ <div id="score0" class="score"></div>
+ <div id="score1" class="score"></div>
+ <div id="score2" class="score"></div>
+ <div id="score3" class="score"></div>
 </div>
 </body> </html>
