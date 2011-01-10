@@ -75,7 +75,9 @@ class x01
   miss: ->
     @hits +=1
     @turns += 1 if @hits % 3 == 0
+    @players[@player].setInactive()
     @player = @turns % @players.length
+    @players[@player].setActive()
 
   hit: (score) ->
     return if @game_over

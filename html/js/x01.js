@@ -98,7 +98,9 @@ x01 = (function() {
     if (this.hits % 3 === 0) {
       this.turns += 1;
     }
-    return this.player = this.turns % this.players.length;
+    this.players[this.player].setInactive();
+    this.player = this.turns % this.players.length;
+    return this.players[this.player].setActive();
   };
   x01.prototype.hit = function(score) {
     var current_player;
