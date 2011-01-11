@@ -10,22 +10,22 @@
 
 <script type="text/javascript">
 function doit() {
-  var game = new x01(301, 2);
+  var game = new x01(301);
 
   $('#restart').click(function () {game.restart();});
-  $('#miss').click(function () {game.miss();})
+  $('#miss').click(function () {game.miss();});
+  $('#addplayer').click(function () {game.addPlayer();});
+  $('#start').click(function () {game.start();});
 }
 </script>
 <style type="text/css">
-#score { font-size: 200%; font-weight: bold; text-align: center;margin-top: 20px;}
-#game {position: absolute; top: 20px; left: 510px; border:1px solid black; width:500px;}
 </style>
 </head>
 
 <body onload="doit();">
 <div id="board" style="width:500px; height:500px;"></div>
 <div id="game">
- <div style="width:500px;text-align:center;"><button id="miss">Miss</button> <button id="restart">Restart</button></div>
+ <div style="width:500px;text-align:center;"><button id="miss">Miss</button> <button id="restart">Restart</button> <button id="addplayer">Add Player</button> <button id="start">Start</button></div>
  <div id="score0" class="score"></div>
  <div id="score1" class="score"></div>
  <div id="score2" class="score"></div>

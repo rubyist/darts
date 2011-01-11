@@ -50,19 +50,30 @@ class x01Player
     this.drawScore()
 
 class x01
-  constructor:  (starting_points, players) ->
+  constructor:  (starting_points) ->
     @paper  = Raphael('board')
     @starting_points = starting_points
     this.clearStats()
 
     @players = []
-    for i in [0...players]
-      @players[i] = new x01Player('Scott', @starting_points, i)
-      @players[i].drawScore()
+    @game_started = false
 
-    @players[@player].startTurn()
+#    for i in [0...players]
+#      @players[i] = new x01Player('Scott', @starting_points, i)
+#      @players[i].drawScore()
+
+#    @players[@player].startTurn()
 
     new DartBoard(this);
+
+  addPlayer: ->
+    player = new x01Player("Player #{@players.length + 1}", @starting_points, @players.length)
+    player.drawScore()
+    @players.push(player)
+
+  start: ->
+    @game_started = true
+    @players[0].startTurn()
 
   clearStats: ->
     @hits   = 0

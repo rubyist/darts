@@ -67,19 +67,24 @@ x01Player = (function() {
   return x01Player;
 })();
 x01 = (function() {
-  function x01(starting_points, players) {
-    var i;
+  function x01(starting_points) {
     this.paper = Raphael('board');
     this.starting_points = starting_points;
     this.clearStats();
     this.players = [];
-    for (i = 0; (0 <= players ? i < players : i > players); (0 <= players ? i += 1 : i -= 1)) {
-      this.players[i] = new x01Player('Scott', this.starting_points, i);
-      this.players[i].drawScore();
-    }
-    this.players[this.player].startTurn();
+    this.game_started = false;
     new DartBoard(this);
   }
+  x01.prototype.addPlayer = function() {
+    var player;
+    player = new x01Player("Player " + (this.players.length + 1), this.starting_points, this.players.length);
+    player.drawScore();
+    return this.players.push(player);
+  };
+  x01.prototype.start = function() {
+    this.game_started = true;
+    return this.players[0].startTurn();
+  };
   x01.prototype.clearStats = function() {
     this.hits = 0;
     this.player = 0;

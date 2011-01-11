@@ -1,3 +1,11 @@
+#game {
+    position: absolute; 
+    top: 20px;
+    left: 510px;
+    border:1px solid black;
+    width:500px;
+}
+
 .score {
     background-color: black;
     height: 60px;
