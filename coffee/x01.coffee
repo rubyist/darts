@@ -17,12 +17,10 @@ class x01Player
     @active = false
     this.drawScore()
 
-  setActive: ->
-    @active = true
-    this.drawScore()
-
   startTurn: ->
+    @active      = true
     @round_score = 0
+    this.drawScore()
 
   win: ->
     @r.clear()
@@ -46,10 +44,17 @@ class x01Player
     this.drawScore()
 
 class x01
-  constructor:  (starting_points) ->
+  constructor:  (starting_points, players) ->
     @paper  = Raphael('board')
     @starting_points = starting_points
     this.clearStats()
+
+    @players = []
+    for i in [0...players]
+      @players[i] = new x01Player('bill', @starting_points, i)
+      @players[i].drawScore()
+
+    @players[@player].startTurn()
 
     new DartBoard(this);
 
@@ -59,14 +64,6 @@ class x01
     @turns  = 0
     @game_over = false
 
-  start: (players) ->
-    @players = []
-    for i in [0...players]
-      @players[i] = new x01Player('bill', @starting_points, i)
-      @players[i].drawScore()
-    @players[0].startTurn()
-    @players[0].setActive()
-
   restart: ->
     this.clearStats()
     for player in @players
@@ -74,33 +71,32 @@ class x01
 
   miss: ->
     @hits +=1
-    @turns += 1 if @hits % 3 == 0
-    @players[@player].setInactive()
-    @player = @turns % @players.length
-    @players[@player].setActive()
+    this.nextPlayer() if @hits % 3 == 0
 
   hit: (score) ->
     return if @game_over
     @hits += 1
-    @turns += 1 if @hits % 3 == 0
-
-    current_player = @players[@player]
 
     switch this.validateScore(score)
       when "good"
-        current_player.hit(score)
+        @players[@player].hit(score)
+        this.nextPlayer() if @hits % 3 == 0
+        break
       when "win"
-        current_player.win()
+        @players[@player].win()
         @game_over = true
-        return
+        break
       when "bust"
-        current_player.bust()
+        @players[@player].bust()
+        this.nextPlayer()
+        break
 
-    @players[@player].startTurn() if @hits % 3 == 0
-
-    current_player.setInactive()
+  nextPlayer: ->
+    @turns += 1
+    @hits = 0
+    @players[@player].setInactive()
     @player = @turns % @players.length
-    @players[@player].setActive()
+    @players[@player].startTurn()
 
   validateScore: (score) ->
     return "good" if score < @players[@player].score
