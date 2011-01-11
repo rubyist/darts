@@ -110,11 +110,12 @@ class x01
       player.reset()
 
   miss: ->
+    return if @game_over or !@game_started
     @hits +=1
     this.nextPlayer() if @hits % 3 == 0
 
   hit: (score) ->
-    return if @game_over
+    return if @game_over or !@game_started
     @hits += 1
 
     switch this.validateScore(score)

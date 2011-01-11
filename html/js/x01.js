@@ -147,13 +147,16 @@ x01 = (function() {
     return _results;
   };
   x01.prototype.miss = function() {
+    if (this.game_over || !this.game_started) {
+      return;
+    }
     this.hits += 1;
     if (this.hits % 3 === 0) {
       return this.nextPlayer();
     }
   };
   x01.prototype.hit = function(score) {
-    if (this.game_over) {
+    if (this.game_over || !this.game_started) {
       return;
     }
     this.hits += 1;
