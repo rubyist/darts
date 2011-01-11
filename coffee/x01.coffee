@@ -84,10 +84,12 @@ class x01
 
     @players = []
     @game_started = false
+    @can_add_players = true
 
     new DartBoard(this);
 
   addPlayer: ->
+    return unless @can_add_players
     player = new x01Player("Player #{@players.length + 1}", @starting_points)
     player.drawScore()
     @players.push(player)
@@ -106,17 +108,20 @@ class x01
     @players[@player].setInactive()
     @players[0].startTurn()
     this.clearStats()
+    @can_add_players = true
     for player in @players
       player.reset()
 
   miss: ->
     return if @game_over or !@game_started
     @hits +=1
+    @can_add_players = false
     this.nextPlayer() if @hits % 3 == 0
 
   hit: (score) ->
     return if @game_over or !@game_started
     @hits += 1
+    @can_add_players = false
 
     switch this.validateScore(score)
       when "good"

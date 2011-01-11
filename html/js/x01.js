@@ -115,10 +115,14 @@ x01 = (function() {
     this.clearStats();
     this.players = [];
     this.game_started = false;
+    this.can_add_players = true;
     new DartBoard(this);
   }
   x01.prototype.addPlayer = function() {
     var player;
+    if (!this.can_add_players) {
+      return;
+    }
     player = new x01Player("Player " + (this.players.length + 1), this.starting_points);
     player.drawScore();
     return this.players.push(player);
@@ -138,6 +142,7 @@ x01 = (function() {
     this.players[this.player].setInactive();
     this.players[0].startTurn();
     this.clearStats();
+    this.can_add_players = true;
     _ref = this.players;
     _results = [];
     for (_i = 0, _len = _ref.length; _i < _len; _i++) {
@@ -151,6 +156,7 @@ x01 = (function() {
       return;
     }
     this.hits += 1;
+    this.can_add_players = false;
     if (this.hits % 3 === 0) {
       return this.nextPlayer();
     }
@@ -160,6 +166,7 @@ x01 = (function() {
       return;
     }
     this.hits += 1;
+    this.can_add_players = false;
     switch (this.validateScore(score)) {
       case "good":
         this.players[this.player].hit(score);
