@@ -1,9 +1,13 @@
 var x01, x01Player;
+var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
 x01Player = (function() {
-  function x01Player(name, starting_score, playerid) {
+  function x01Player(name, starting_score) {
     this.name = name;
     this.starting_score = starting_score;
-    this.r = Raphael("score" + playerid);
+    $('#game').append('<div class="score"><div class="score-edit"><input /></div></div>');
+    this.element = $('#game .score:last')[0];
+    $('.score-edit', this.element).hide();
+    this.r = Raphael(this.element);
     this.score = starting_score;
     this.round_score = 0;
     this.reset();
@@ -24,11 +28,49 @@ x01Player = (function() {
     }
   };
   x01Player.prototype.drawName = function() {
-    var name;
+    var name, rect;
+    rect = this.r.rect(140, 0, this.r.width - 140, this.r.height);
+    rect.attr({
+      fill: "black"
+    });
+    rect.click(__bind(function(event) {
+      return this.editName();
+    }, this));
     name = this.r.print(140, 35, this.name, this.r.getFont("Chalkduster"), 48);
-    return name.attr({
+    name.attr({
       fill: "white"
     });
+    return name.click(__bind(function(event) {
+      return this.editName();
+    }, this));
+  };
+  x01Player.prototype.editName = function() {
+    var input;
+    input = $('input', this.element);
+    input.val(this.name);
+    $('.score-edit', this.element).show();
+    input.focus();
+    input.change(__bind(function(event) {
+      return this.commitEdit();
+    }, this));
+    input.blur(__bind(function(event) {
+      return this.commitEdit();
+    }, this));
+    return input.keydown(__bind(function(event) {
+      if (event.which === 27) {
+        return this.commitEdit(false);
+      }
+    }, this));
+  };
+  x01Player.prototype.commitEdit = function(setname) {
+    if (setname == null) {
+      setname = true;
+    }
+    if (setname) {
+      this.name = $('input', this.element).val();
+    }
+    $('.score-edit', this.element).hide();
+    return this.drawScore();
   };
   x01Player.prototype.setInactive = function() {
     this.active = false;
@@ -77,7 +119,7 @@ x01 = (function() {
   }
   x01.prototype.addPlayer = function() {
     var player;
-    player = new x01Player("Player " + (this.players.length + 1), this.starting_points, this.players.length);
+    player = new x01Player("Player " + (this.players.length + 1), this.starting_points);
     player.drawScore();
     return this.players.push(player);
   };
@@ -93,6 +135,8 @@ x01 = (function() {
   };
   x01.prototype.restart = function() {
     var player, _i, _len, _ref, _results;
+    this.players[this.player].setInactive();
+    this.players[0].startTurn();
     this.clearStats();
     _ref = this.players;
     _results = [];

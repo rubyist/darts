@@ -7,6 +7,20 @@
 }
 
 .score {
+    position: relative;
     background-color: black;
-    height: 60px;
+    height: 80px;
+}
+
+.score-edit {
+    background-color: black;
+    position: absolute;
+    left: 140px;
+    top: 0px;
+}
+
+.score-edit input {
+    height: 80px;
+    width: 360px;
+    font-size: 48px;
 }

@@ -1,6 +1,10 @@
 class x01Player
-  constructor: (@name, @starting_score, playerid) ->
-    @r = Raphael("score#{playerid}") # create a div?
+  constructor: (@name, @starting_score) ->
+    $('#game').append('<div class="score"><div class="score-edit"><input /></div></div>')
+    @element = $('#game .score:last')[0]
+    $('.score-edit', @element).hide()
+
+    @r = Raphael(@element)
     @score = starting_score
     @round_score = 0
     this.reset()
@@ -15,8 +19,31 @@ class x01Player
       circle.attr({fill: "red"})
 
   drawName: ->
+    rect = @r.rect(140, 0, @r.width-140, @r.height)
+    rect.attr({fill: "black"})
+    rect.click (event) =>
+      this.editName()
     name = @r.print(140, 35, @name, @r.getFont("Chalkduster"), 48)
     name.attr({fill: "white"})
+    name.click (event) =>
+      this.editName()
+
+  editName: ->
+    input = $('input', @element)
+    input.val(@name)
+    $('.score-edit', @element).show()
+    input.focus()
+    input.change (event) =>
+      this.commitEdit()
+    input.blur (event) =>
+      this.commitEdit()
+    input.keydown (event) =>
+      this.commitEdit(false) if event.which == 27
+
+  commitEdit: (setname=true) ->
+    @name = $('input', @element).val() if setname
+    $('.score-edit', @element).hide()
+    this.drawScore()
 
   setInactive: ->
     @active = false
@@ -58,16 +85,10 @@ class x01
     @players = []
     @game_started = false
 
-#    for i in [0...players]
-#      @players[i] = new x01Player('Scott', @starting_points, i)
-#      @players[i].drawScore()
-
-#    @players[@player].startTurn()
-
     new DartBoard(this);
 
   addPlayer: ->
-    player = new x01Player("Player #{@players.length + 1}", @starting_points, @players.length)
+    player = new x01Player("Player #{@players.length + 1}", @starting_points)
     player.drawScore()
     @players.push(player)
 
@@ -82,6 +103,8 @@ class x01
     @game_over = false
 
   restart: ->
+    @players[@player].setInactive()
+    @players[0].startTurn()
     this.clearStats()
     for player in @players
       player.reset()
