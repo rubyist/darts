@@ -3,3 +3,5 @@ This is me learning a bit about Raphael js and CoffeeScript.
 It is an app for scoring dart games. The js code is done in CoffeeScript 
 and the dart board is drawn using Raphael. You click where your darts
 land and the scores are kept as if by magic.
+
+Demo: http://rubyi.st/junk/darts
