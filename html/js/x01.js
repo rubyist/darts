@@ -11,16 +11,24 @@ x01Player = (function() {
   x01Player.prototype.drawScore = function() {
     var circle, text;
     this.r.clear();
-    text = this.r.print(4, 24, this.score, this.r.getFont("Chalkduster"), 48);
+    text = this.r.print(4, 35, "" + this.score, this.r.getFont("Chalkduster"), 48);
     text.attr({
       fill: "white"
     });
+    this.drawName();
     if (this.active) {
-      circle = this.r.circle(8, 24, 4);
+      circle = this.r.circle(8, 35, 4);
       return circle.attr({
         fill: "red"
       });
     }
+  };
+  x01Player.prototype.drawName = function() {
+    var name;
+    name = this.r.print(140, 35, this.name, this.r.getFont("Chalkduster"), 48);
+    return name.attr({
+      fill: "white"
+    });
   };
   x01Player.prototype.setInactive = function() {
     this.active = false;
@@ -34,10 +42,11 @@ x01Player = (function() {
   x01Player.prototype.win = function() {
     var text;
     this.r.clear();
-    text = this.r.print(4, 24, 'WIN!', this.r.getFont("Chalkduster"), 48);
-    return text.attr({
+    text = this.r.print(4, 35, "WIN!", this.r.getFont("Chalkduster"), 48);
+    text.attr({
       fill: "white"
     });
+    return this.drawName();
   };
   x01Player.prototype.bust = function() {
     this.score += this.round_score;
@@ -65,7 +74,7 @@ x01 = (function() {
     this.clearStats();
     this.players = [];
     for (i = 0; (0 <= players ? i < players : i > players); (0 <= players ? i += 1 : i -= 1)) {
-      this.players[i] = new x01Player('bill', this.starting_points, i);
+      this.players[i] = new x01Player('Scott', this.starting_points, i);
       this.players[i].drawScore();
     }
     this.players[this.player].startTurn();

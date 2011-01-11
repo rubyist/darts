@@ -7,11 +7,16 @@ class x01Player
 
   drawScore: ->
     @r.clear()
-    text = @r.print(4, 24, @score, @r.getFont("Chalkduster"), 48)
+    text = @r.print(4, 35, "#{@score}", @r.getFont("Chalkduster"), 48)
     text.attr({fill: "white"})
+    this.drawName()
     if @active
-      circle = @r.circle(8, 24, 4)
+      circle = @r.circle(8, 35, 4)
       circle.attr({fill: "red"})
+
+  drawName: ->
+    name = @r.print(140, 35, @name, @r.getFont("Chalkduster"), 48)
+    name.attr({fill: "white"})
 
   setInactive: ->
     @active = false
@@ -24,8 +29,9 @@ class x01Player
 
   win: ->
     @r.clear()
-    text = @r.print(4, 24, 'WIN!', @r.getFont("Chalkduster"), 48)
+    text = @r.print(4, 35, "WIN!", @r.getFont("Chalkduster"), 48)
     text.attr({fill: "white"})
+    this.drawName()
 
   bust: ->
     @score += @round_score
@@ -51,7 +57,7 @@ class x01
 
     @players = []
     for i in [0...players]
-      @players[i] = new x01Player('bill', @starting_points, i)
+      @players[i] = new x01Player('Scott', @starting_points, i)
       @players[i].drawScore()
 
     @players[@player].startTurn()
