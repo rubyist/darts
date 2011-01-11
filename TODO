@@ -1,0 +1,10 @@
+Style up board numbers
+Extract and unify all the styling bits
+
+x01 game
+ * Display what round it is
+ * Display something for a bust
+ * double in / double out option
+ * fix up all the control buttons, they're imperfect
+
+Cricket game
