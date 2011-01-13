@@ -78,7 +78,6 @@ class x01Player
 
 class x01
   constructor:  (starting_points) ->
-    @paper  = Raphael('board')
     @starting_points = starting_points
     this.clearStats()
 

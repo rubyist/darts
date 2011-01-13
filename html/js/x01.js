@@ -110,7 +110,6 @@ x01Player = (function() {
 })();
 x01 = (function() {
   function x01(starting_points) {
-    this.paper = Raphael('board');
     this.starting_points = starting_points;
     this.clearStats();
     this.players = [];

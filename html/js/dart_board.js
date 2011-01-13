@@ -4,7 +4,7 @@ DartBoard = (function() {
   DartBoard.prototype.ScoreOrder = [20, 1, 18, 4, 13, 6, 10, 15, 2, 17, 3, 19, 7, 16, 8, 11, 14, 9, 12, 5];
   function DartBoard(game) {
     this.game = game;
-    this.paper = this.game.paper;
+    this.paper = Raphael('board');
     this.originX = Math.min(this.paper.width, this.paper.height) / 2;
     this.originY = Math.min(this.paper.width, this.paper.height) / 2;
     this.radius = Math.min(this.paper.width, this.paper.height) / 2 - 15;
