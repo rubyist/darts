@@ -3,10 +3,11 @@ class DartBoard
 
   constructor: (@game) ->
     @paper = @game.paper
+
     # These are all the same because we're drawing in a square portion
     @originX = Math.min(@paper.width, @paper.height) / 2
     @originY = Math.min(@paper.width, @paper.height) / 2
-    @radius  = Math.min(@paper.width, @paper.height) / 2
+    @radius  = Math.min(@paper.width, @paper.height) / 2 - 15
 
     this.draw()
 
@@ -103,7 +104,14 @@ class BoardSlice
     section
 
   drawNumber: () ->
-    @board.paper.text(@board.originX, 4, @value)
+    set = @board.paper.set()
+    circle = @board.paper.circle(@board.originX, 12, 10)
+    circle.attr({fill: "#f5e1c3", stroke: "#f5e1c3"})
+    set.push(circle)
+    number = @board.paper.text(@board.originX, 12, @value)
+    number.attr({"font-weight": "bold"})
+    set.push(number)
+    set
 
   sectionHoverIn: (section) ->
     section.toFront()
@@ -118,10 +126,10 @@ class BoardSlice
 
   pointsFor: (factor) ->
     radius = @board.radius * factor
-    lx = radius * Math.cos(Raphael.rad(261)) + @board.radius
-    ly = radius * Math.sin(Raphael.rad(261)) + @board.radius
-    rx = radius * Math.cos(Raphael.rad(279)) + @board.radius
-    ry = radius * Math.sin(Raphael.rad(279)) + @board.radius
+    lx = radius * Math.cos(Raphael.rad(261)) + @board.originX
+    ly = radius * Math.sin(Raphael.rad(261)) + @board.originX
+    rx = radius * Math.cos(Raphael.rad(279)) + @board.originX
+    ry = radius * Math.sin(Raphael.rad(279)) + @board.originX
 
     {l: {x: lx, y: ly}, r: {x: rx, y: ry}, radius: radius}
 

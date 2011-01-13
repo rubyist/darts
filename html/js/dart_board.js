@@ -7,7 +7,7 @@ DartBoard = (function() {
     this.paper = this.game.paper;
     this.originX = Math.min(this.paper.width, this.paper.height) / 2;
     this.originY = Math.min(this.paper.width, this.paper.height) / 2;
-    this.radius = Math.min(this.paper.width, this.paper.height) / 2;
+    this.radius = Math.min(this.paper.width, this.paper.height) / 2 - 15;
     this.draw();
   }
   DartBoard.prototype.draw = function() {
@@ -137,7 +137,20 @@ BoardSlice = (function() {
     return section;
   };
   BoardSlice.prototype.drawNumber = function() {
-    return this.board.paper.text(this.board.originX, 4, this.value);
+    var circle, number, set;
+    set = this.board.paper.set();
+    circle = this.board.paper.circle(this.board.originX, 12, 10);
+    circle.attr({
+      fill: "#f5e1c3",
+      stroke: "#f5e1c3"
+    });
+    set.push(circle);
+    number = this.board.paper.text(this.board.originX, 12, this.value);
+    number.attr({
+      "font-weight": "bold"
+    });
+    set.push(number);
+    return set;
   };
   BoardSlice.prototype.sectionHoverIn = function(section) {
     section.toFront();
@@ -157,10 +170,10 @@ BoardSlice = (function() {
   BoardSlice.prototype.pointsFor = function(factor) {
     var lx, ly, radius, rx, ry;
     radius = this.board.radius * factor;
-    lx = radius * Math.cos(Raphael.rad(261)) + this.board.radius;
-    ly = radius * Math.sin(Raphael.rad(261)) + this.board.radius;
-    rx = radius * Math.cos(Raphael.rad(279)) + this.board.radius;
-    ry = radius * Math.sin(Raphael.rad(279)) + this.board.radius;
+    lx = radius * Math.cos(Raphael.rad(261)) + this.board.originX;
+    ly = radius * Math.sin(Raphael.rad(261)) + this.board.originX;
+    rx = radius * Math.cos(Raphael.rad(279)) + this.board.originX;
+    ry = radius * Math.sin(Raphael.rad(279)) + this.board.originX;
     return {
       l: {
         x: lx,
